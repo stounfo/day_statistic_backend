@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "day_statistic_backend"
+version = "0.1.0"
+description = ""
+authors = ["Levantin Oleg <levantin.oleg@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.79.0"
+uvicorn = "^0.18.2"
+pytest = "^7.1.2"
+requests = "^2.28.1"
+
+[tool.poetry.dev-dependencies]
+black = "^22.6.0"
+isort = "^5.10.1"
+pyright = "^1.1.262"
+autoflake = "^1.4"
+ansible = "^6.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
