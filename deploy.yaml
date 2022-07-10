@@ -1,0 +1,39 @@
+- name: Deploy
+  hosts: app
+  tasks:
+    - name: Copy Docker Compose files
+      copy:
+        src: "{{ item }}"
+        dest: "{{ project_path }}"
+      with_fileglob:
+        - ./docker-compose.base.yaml
+
+    - name: Copy env files
+      copy:
+        src: "./etc/envs"
+        dest: "{{ project_path }}/etc/"
+
+    - name: Start docker-compose
+      community.docker.docker_compose:
+        profiles: "with_app"
+        project_src: "{{ project_path }}"
+        files:
+          - docker-compose.base.yaml
+
+    - name: Start app
+      community.docker.docker_container:
+        name: app
+        image: "{{ app_image_url }}"
+        volumes:
+          - "{{ project_path }}/etc/envs/:/etc/envs"
+        ports:
+          - "8080:80" # temporary solution until nginx isn't added
+
+    - name: Remove unused docker data
+      community.docker.docker_prune:
+        containers: yes
+        images: yes
+        images_filters:
+          dangling: false
+        networks: yes
+        volumes: yes
