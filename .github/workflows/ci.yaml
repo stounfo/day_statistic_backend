@@ -2,15 +2,6 @@
 name: ci
 on: [push]
 jobs:
-  master_check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Check if current branch is behind by master
-        run: make master_check
-
-
   lint_check:
     runs-on: ubuntu-latest
     steps:
@@ -56,7 +47,7 @@ jobs:
 
 
   build:
-    needs: [test, lint_check, master_check]
+    needs: [test, lint_check]
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry

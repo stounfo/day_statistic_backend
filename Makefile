@@ -18,15 +18,6 @@ deploy:
 	@poetry run ansible-playbook -i etc/hosts -u ${DEPLOY_USER} --become  -e "project_path=${PROJECT_PATH} app_image_url=${APP_IMAGE_URL}" deploy.yaml
 
 
-.PHONY: master_check
-master_check:
-	@git remote update;
-	@if [ $$(git log HEAD..origin/master --pretty=oneline | wc -l) -gt 0 ]; then \
-	  echo "your branch is behind by master"; \
-	  exit 1; \
-	fi
-
-
 .PHONY: black_format
 black_format:
 	poetry run black ./app ./tests

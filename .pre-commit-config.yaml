@@ -2,11 +2,6 @@
 repos:
   - repo: local
     hooks:
-      - id: master_check
-        name: Check master in branch
-        entry: make master_check
-        language: system
-
       - id: lint
         name: Lint
         entry: make lint_check
