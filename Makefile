@@ -15,7 +15,7 @@ stop:
 
 
 deploy:
-	@poetry run ansible-playbook -i etc/hosts -u ${DEPLOY_USER} --become  -e "project_path=${PROJECT_PATH} app_image_url=${APP_IMAGE_URL}" deploy.yaml
+	@poetry run ansible-playbook -i ${DEPLOY_HOST}, -u ${DEPLOY_USER} --become  -e "deploy_project_path=${DEPLOY_PROJECT_PATH} app_image_url=${APP_IMAGE_URL}" deploy.yaml
 
 
 .PHONY: black_format
