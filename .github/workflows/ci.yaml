@@ -47,28 +47,13 @@ jobs:
 
 
   build:
-    needs: [test, lint_check]
     permissions:
       packages: write
     runs-on: ubuntu-latest
-    steps:
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          
-      - run: echo ${{ github.actor }}
-
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5.4
-
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
-            ghcr.io/${{ github.repository }}:${{ steps.branch-name.outputs.current_branch }}
+    steps:      
+      - name: test1
+        run: echo ${{ github.ref_name }}
+      - name: test2
+        run: echo ${{ github.ref }}
+      - name: test3
+        run: echo ${{ github }}
