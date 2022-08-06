@@ -16,9 +16,11 @@ Deploy project from local. The project uses [ansible](https://docs.ansible.com/a
 **Attention! This script delete all unused docker data on the managed node.**
 
 ```bash
-make deploy PROJECT_PATH=/opt/test/ DEPLOY_USER=ansible APP_IMAGE_URL=ghcr.io/stounfo/day_statistic_backend:master
+make deploy DEPLOY_HOST=206.188.197.52 DEPLOY_USER=ansible DEPLOY_PROJECT_PATH=/opt/test APP_IMAGE_URL=ghcr.io/stounfo/day_statistic_backend:latest
 ```
-PROJECT_PATH - path to directory where project will installed on the Managed node
+DEPLOY_HOST - host of the Managed node
+
+DEPLOY_PROJECT_PATH - path to directory where project will installed on the Managed node
 
 DEPLOY_USER - username on the Managed node
 

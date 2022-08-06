@@ -1,22 +1,22 @@
 - name: Deploy
-  hosts: app
+  hosts: all
   tasks:
     - name: Copy Docker Compose files
       copy:
         src: "{{ item }}"
-        dest: "{{ project_path }}"
+        dest: "{{ deploy_project_path }}"
       with_fileglob:
         - ./docker-compose.base.yaml
 
     - name: Copy env files
       copy:
         src: "./etc/envs"
-        dest: "{{ project_path }}/etc/"
+        dest: "{{ deploy_project_path }}/etc/"
 
     - name: Start docker-compose
       community.docker.docker_compose:
         profiles: "with_app"
-        project_src: "{{ project_path }}"
+        project_src: "{{ deploy_project_path }}"
         files:
           - docker-compose.base.yaml
 
@@ -25,7 +25,7 @@
         name: app
         image: "{{ app_image_url }}"
         volumes:
-          - "{{ project_path }}/etc/envs/:/etc/envs"
+          - "{{ deploy_project_path }}/etc/envs/:/etc/envs"
         ports:
           - "8080:80" # temporary solution until nginx isn't added
 
