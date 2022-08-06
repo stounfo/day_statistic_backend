@@ -58,17 +58,20 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
-      - run: echo ${{ github.actor }}
 
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5.4
+      - name: Generate docker tags
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=pr
+            type=ref,event=branch
+            type=sha,enable=${{ github.event_name == 'push' }}
+            type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'master') && github.event_name == 'push' }}
 
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
-            ghcr.io/${{ github.repository }}:${{ steps.branch-name.outputs.current_branch }}
+          tags: ${{ steps.meta.outputs.tags }}
