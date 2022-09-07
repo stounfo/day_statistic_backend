@@ -37,9 +37,11 @@ jobs:
         run: |
           echo "$MONGODB_ENV" > ./etc/envs/mongodb.env
           echo "$APP_ENV" > ./etc/envs/app.env
+          echo "$REDIS_ENV" > ./etc/envs/redis.env
         env:
           MONGODB_ENV: ${{ secrets.MONGODB_ENV }}
           APP_ENV: ${{ secrets.APP_ENV }}
+          REDIS_ENV: ${{ secrets.REDIS_ENV }}
 
       - name: Deploy project
         run: make deploy DEPLOY_HOST="$DEPLOY_HOST" DEPLOY_USER="$DEPLOY_USER" DEPLOY_PROJECT_PATH="$DEPLOY_PROJECT_PATH" APP_IMAGE_URL=ghcr.io/${{ github.repository }}:${{ github.event.inputs.app_image_tag }}

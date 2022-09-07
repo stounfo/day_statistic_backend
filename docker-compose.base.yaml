@@ -9,5 +9,15 @@ services:
     env_file:
       - ./etc/envs/mongodb.env
 
+  redis:
+    container_name: redis
+    image: redislabs/rejson:2.2.0
+    restart: always
+    volumes:
+      - redis_data:/data
+    env_file:
+      - ./etc/envs/redis.env
+
 volumes:
   mongodb_data:
+  redis_data:
