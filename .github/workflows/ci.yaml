@@ -2,7 +2,7 @@
 name: ci
 on: [push, pull_request_target]
 jobs:
-  lint_check:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,7 +21,7 @@ jobs:
         run: poetry install --no-interaction --no-ansi
 
       - name: Check by linters
-        run: make lint_check
+        run: make lint
 
 
   test:
@@ -47,7 +47,7 @@ jobs:
 
 
   build:
-    needs: [test, lint_check]
+    needs: [test, lint]
     permissions:
       packages: write
     runs-on: ubuntu-latest

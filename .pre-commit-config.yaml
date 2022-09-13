@@ -4,6 +4,6 @@ repos:
     hooks:
       - id: lint
         name: Lint
-        entry: make lint_check
+        entry: make lint
         types: [ python ]
         language: system
