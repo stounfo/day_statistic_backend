@@ -16,6 +16,13 @@ make install
 make start
 ```
 
+Show another magic of make.
+
+```bash
+make help
+```
+
+
 ## Deploy from a local system to a server
 
 Add your public ssh key to the server in ```~/.ssh/authorized_keys```.
