@@ -35,12 +35,14 @@ jobs:
 
       - name: Override environment files
         run: |
-          echo "$MONGODB_ENV" > ./etc/envs/mongodb.env
           echo "$APP_ENV" > ./etc/envs/app.env
+          echo "$APP_SIGN_UP_ENV" > ./etc/envs/app.sign_up.env
+          echo "$MONGODB_ENV" > ./etc/envs/mongodb.env
           echo "$REDIS_ENV" > ./etc/envs/redis.env
         env:
-          MONGODB_ENV: ${{ secrets.MONGODB_ENV }}
           APP_ENV: ${{ secrets.APP_ENV }}
+          APP_SIGN_UP_ENV: ${{ secrets.APP_ENV }}
+          MONGODB_ENV: ${{ secrets.MONGODB_ENV }}
           REDIS_ENV: ${{ secrets.REDIS_ENV }}
 
       - name: Deploy project
