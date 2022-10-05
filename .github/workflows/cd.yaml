@@ -20,12 +20,12 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.10.5"
 
       - name: Add poetry
         uses: abatilo/actions-poetry@v2.0.0
         with:
-          poetry-version: 1.1.14
+          poetry-version: 1.2.1
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -41,7 +41,7 @@ jobs:
           echo "$REDIS_ENV" > ./etc/envs/redis.env
         env:
           APP_ENV: ${{ secrets.APP_ENV }}
-          APP_SIGN_UP_ENV: ${{ secrets.APP_ENV }}
+          APP_SIGN_UP_ENV: ${{ secrets.APP_SIGN_UP_ENV }}
           MONGODB_ENV: ${{ secrets.MONGODB_ENV }}
           REDIS_ENV: ${{ secrets.REDIS_ENV }}
 
