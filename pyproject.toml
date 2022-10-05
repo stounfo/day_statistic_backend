@@ -5,7 +5,7 @@ description = ""
 authors = ["Levantin Oleg <levantin.oleg@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10.5"
 fastapi = "^0.79.0"
 uvicorn = "^0.18.2"
 pytest = "^7.1.2"
@@ -14,17 +14,21 @@ python-dotenv = "^0.21.0"
 beanie = "^1.11.9"
 redis-om = "^0.0.27"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.lints.dependencies]
 pre-commit = "^2.20.0"
 autoflake = "^1.4"
 isort = "^5.10.1"
 black = "^22.6.0"
 flake8 = "^5.0.4"
 pyright = "^1.1.262"
-ansible = "^6.2.0"
+
+[tool.poetry.group.tests.dependencies]
 httpx = "^0.23.0"
 pytest-anyio = "^0.0.0"
 asgi-lifespan = "^1.0.1"
+
+[tool.poetry.group.deploy.dependencies]
+ansible = "^6.2.0"
 
 [tool.autoflake]
 remove-all-unused-imports = true
