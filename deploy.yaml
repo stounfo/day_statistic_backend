@@ -4,7 +4,7 @@
     - name: Copy Docker Compose files
       copy:
         src: "{{ item }}"
-        dest: "{{ deploy_project_path }}"
+        dest: "{{ deploy_project_path }}/"
       with_fileglob:
         - ./docker-compose.base.yaml
 
@@ -15,25 +15,17 @@
 
     - name: Start docker-compose
       community.docker.docker_compose:
-        profiles: "with_app"
-        project_src: "{{ deploy_project_path }}"
+        project_src: "{{ deploy_project_path }}/"
         files:
           - docker-compose.base.yaml
 
     - name: Start app
       community.docker.docker_container:
-        name: app
+        name: day_statistic_backend_app
         image: "{{ app_image_url }}"
         volumes:
           - "{{ deploy_project_path }}/etc/envs/:/etc/envs"
+        networks:
+          - name: day_statistic_backend_default
         ports:
           - "8080:80" # temporary solution until nginx isn't added
-
-    - name: Remove unused docker data
-      community.docker.docker_prune:
-        containers: yes
-        images: yes
-        images_filters:
-          dangling: false
-        networks: yes
-        volumes: yes

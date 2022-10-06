@@ -27,6 +27,9 @@ jobs:
         with:
           poetry-version: 1.2.1
 
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-ansi --only deploy
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
