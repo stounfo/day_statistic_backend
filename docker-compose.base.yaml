@@ -1,23 +1,31 @@
 version: '3.9'
 services:
   mongodb:
-    container_name: mongodb
+    container_name: day_statistic_backend_mongodb
     image: mongo:5.0.9
     restart: always
     volumes:
       - mongodb_data:/data/db
+    networks:
+      - day_statistic_backend_default
     env_file:
       - ./etc/envs/mongodb.env
 
   redis:
-    container_name: redis
+    container_name: day_statistic_backend_redis
     image: redislabs/rejson:2.2.0
     restart: always
     volumes:
       - redis_data:/data
+    networks:
+      - day_statistic_backend_default
     env_file:
       - ./etc/envs/redis.env
 
 volumes:
   mongodb_data:
   redis_data:
+
+networks:
+  day_statistic_backend_default:
+    name: day_statistic_backend_default
