@@ -1,24 +1,26 @@
 # https://pydantic-docs.helpmanual.io/visual_studio_code/#basesettings-and-ignoring-pylancepyright-errors
 # pyright: reportGeneralTypeIssues=false
-from typing import Any, Dict
+from typing import Any, Dict, TypeAlias
 
 from pydantic import BaseSettings, Field, MongoDsn, RedisDsn, root_validator
 
-from app.common.types import HostStr, PortStr, SecondInt
+HostStr: TypeAlias = str
+PortStr: TypeAlias = str
+SecondInt: TypeAlias = int
 
 
-class SignUp(BaseSettings):
-    access_code_len: int = Field(env="SIGN_UP_ACCESS_CODE_LEN", gt=0)
+class User(BaseSettings):
+    access_code_len: int = Field(env="ACCESS_CODE_LEN", gt=0)
     session_expire_time: SecondInt = Field(
         env="SING_UP_SESSION_EXPIRE_TIME", gt=0
     )
 
     class Config:
-        env_file = "./etc/envs/app.sign_up.env", "../etc/envs/app.sign_up.env"
+        env_file = "./etc/envs/app.user.env", "../etc/envs/app.user.env"
 
 
 class App(BaseSettings):
-    sign_up: SignUp = SignUp()
+    user_settings: User = User()
     debug: bool = Field(env="APP_DEBUG")
 
     class Config:

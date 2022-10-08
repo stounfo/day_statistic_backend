@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from fastapi import APIRouter, BackgroundTasks, Body, Depends, status
+from fastapi import APIRouter, BackgroundTasks, Depends, status
 
 from app.common.email import send_email
 from app.common.exceptions import (
@@ -10,15 +10,16 @@ from app.common.exceptions import (
     UsernameAlreadyExistsException,
 )
 from app.common.security import create_access_token
-from app.common.types import AccessCodeStr, UsernameStr
 from app.config import settings
 
 from ..dependencies import get_current_sign_up_session
 from ..models.sign_up import (
+    SignUpAccessCodeIn,
     SignUpAccessCodeOut,
     SignUpEmailIn,
     SignUpEmailOut,
     SignUpSessionDB,
+    SignUpUsernameIn,
 )
 from ..models.user import UserDB, UserOut
 
@@ -39,7 +40,9 @@ async def sign_up_email(
         raise EmailAlreadyExistsException()
 
     sign_up_session = await SignUpSessionDB(email=email).save()
-    await sign_up_session.expire(settings.app.sign_up.session_expire_time)
+    await sign_up_session.expire(
+        settings.app.user_settings.session_expire_time
+    )
 
     background_tasks.add_task(
         send_email, email_to=email, access_code=sign_up_session.access_code
@@ -50,7 +53,7 @@ async def sign_up_email(
         sign_up_token=create_access_token(
             subject=sign_up_session.pk,
             expires_delta=timedelta(
-                seconds=settings.app.sign_up.session_expire_time
+                seconds=settings.app.user_settings.session_expire_time
             ),
         ),
     )
@@ -62,9 +65,10 @@ async def sign_up_email(
     response_model=SignUpAccessCodeOut,
 )
 async def sign_up_access_code(
-    access_code: AccessCodeStr = Body(embed=True),
+    data: SignUpAccessCodeIn,
     sign_up_session: SignUpSessionDB = Depends(get_current_sign_up_session),
 ):
+    access_code = data.access_code
     if access_code != sign_up_session.access_code:
         raise InvalidAccessCodeException()
 
@@ -80,9 +84,10 @@ async def sign_up_access_code(
     status_code=status.HTTP_201_CREATED,
 )
 async def sign_up_name(
-    username: UsernameStr = Body(embed=True),
+    data: SignUpUsernameIn,
     sign_up_session: SignUpSessionDB = Depends(get_current_sign_up_session),
 ):
+    username = data.username
     if not sign_up_session.verified:
         raise EmailNotValidatedException()
     if await UserDB.find_one(UserDB.username == username):

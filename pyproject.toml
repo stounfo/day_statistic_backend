@@ -47,6 +47,7 @@ line_length = 79
 
 [tool.black]
 line-length = 79
+experimental-string-processing = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
