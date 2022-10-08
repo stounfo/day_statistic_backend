@@ -29,19 +29,15 @@ class SignUpAccessCodeOut(SignUpSessionBase):
     pass
 
 
-class SignUpNameIn(BaseModel):
+class SignUpUsernameIn(BaseModel):
     username: UsernameStr
-
-
-class SignUpNameOut(SignUpNameIn, SignUpSessionBase):
-    pass
 
 
 class SignUpSessionDB(JsonModel, SignUpSessionBase, TimestampedMixin):
     verified: bool = False
     access_code: str = Field(
         default_factory=create_access_code_factory(
-            settings.app.sign_up.access_code_len
+            settings.app.user_settings.access_code_len
         )
     )
 
