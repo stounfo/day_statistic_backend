@@ -1,6 +1,7 @@
 import pytest
 from pydantic import EmailStr
 
+from app.common.types.types import UsernameStr
 from app.user.models.sign_up import SignUpSessionDB
 from app.user.models.user import UserDB
 
@@ -8,14 +9,15 @@ from app.user.models.user import UserDB
 @pytest.fixture
 async def some_user() -> UserDB:
     return await UserDB(
-        email=EmailStr("test@mail.com"), username="test"
+        email=EmailStr("test@mail.com"), username=UsernameStr("test")
     ).save()
 
 
 @pytest.fixture
 async def another_user() -> UserDB:
     return await UserDB(
-        email=EmailStr("another_test@mail.com"), username="another_test"
+        email=EmailStr("another_test@mail.com"),
+        username=UsernameStr("another_test"),
     ).save()
 
 

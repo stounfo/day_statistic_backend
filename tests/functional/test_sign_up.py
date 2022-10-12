@@ -146,6 +146,21 @@ async def test_sign_up_username(
             status.HTTP_400_BAD_REQUEST,
             id="Username already sign up",
         ),
+        pytest.param(
+            {"username": "use"},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            id="Username is too short",
+        ),
+        pytest.param(
+            {"username": "useruseruseruseru"},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            id="Username is too long",
+        ),
+        pytest.param(
+            {"username": "12345"},
+            status.HTTP_422_UNPROCESSABLE_ENTITY,
+            id="Username doesn't include any letters",
+        ),
     ],
 )
 async def test_sign_up_username_error(
