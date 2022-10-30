@@ -117,7 +117,7 @@ async def test_sign_up_access_code_error(
 
 
 @pytest.mark.anyio
-async def test_sign_up_name(
+async def test_sign_up_username(
     sign_up_session_waiting_for_username: SignUpSessionDB, client: AsyncClient
 ):
     payload = {"username": "test"}
@@ -125,7 +125,7 @@ async def test_sign_up_name(
         sign_up_session_waiting_for_username.pk, timedelta(minutes=1)
     )
     response = await client.post(
-        app.url_path_for("sign_up_name"),
+        app.url_path_for("sign_up_username"),
         json=payload,
         headers={"Authorization": f"Bearer {token}"},
     )
@@ -148,7 +148,7 @@ async def test_sign_up_name(
         ),
     ],
 )
-async def test_sign_up_name_error(
+async def test_sign_up_username_error(
     payload: Dict[str, str],
     expected_status_code: int,
     sign_up_session_waiting_for_username: SignUpSessionDB,
@@ -159,7 +159,7 @@ async def test_sign_up_name_error(
         sign_up_session_waiting_for_username.pk, timedelta(minutes=1)
     )
     response = await client.post(
-        app.url_path_for("sign_up_name"),
+        app.url_path_for("sign_up_username"),
         json=payload,
         headers={"Authorization": f"Bearer {token}"},
     )

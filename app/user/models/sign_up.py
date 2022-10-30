@@ -39,5 +39,5 @@ class SignUpSessionDB(JsonModel, SignUpSessionBase, TimestampedMixin):
         primary_key_creator_cls = type(
             "UUIDPrimaryKey",
             (),
-            {"create_pk": classmethod(lambda cls, *_, **__: str(uuid4()))},
+            {"create_pk": staticmethod(lambda *_, **__: str(uuid4()))},
         )
