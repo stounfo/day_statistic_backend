@@ -4,9 +4,7 @@ from aredis_om import JsonModel
 from pydantic import BaseModel, EmailStr, Field
 
 from app.common.models import TimestampedMixin
-from app.common.security import create_access_code_factory
 from app.common.types import AccessCodeStr, UsernameStr
-from app.config import settings
 
 
 class SignUpSessionBase(BaseModel):
@@ -35,11 +33,7 @@ class SignUpUsernameIn(BaseModel):
 
 class SignUpSessionDB(JsonModel, SignUpSessionBase, TimestampedMixin):
     verified: bool = False
-    access_code: str = Field(
-        default_factory=create_access_code_factory(
-            settings.app.user_settings.access_code_len
-        )
-    )
+    access_code: AccessCodeStr = Field(default_factory=AccessCodeStr.random)
 
     class Meta:
         primary_key_creator_cls = type(

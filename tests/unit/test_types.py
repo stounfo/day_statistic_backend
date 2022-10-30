@@ -4,7 +4,6 @@ import pytest
 from pydantic import BaseModel, ValidationError
 
 from app.common.types import AccessCodeStr
-from app.config import settings
 
 
 def test_sign_up_access_code_str():
@@ -12,28 +11,31 @@ def test_sign_up_access_code_str():
         v: AccessCodeStr
 
     assert (
-        Model(
-            v=AccessCodeStr("0" * settings.app.user_settings.access_code_len)
-        ).v
-        == "0" * settings.app.user_settings.access_code_len
+        Model(v=AccessCodeStr("0" * AccessCodeStr.length)).v
+        == "0" * AccessCodeStr.length
     )
+
+
+def test_sign_up_access_code_str_random():
+    access_code = AccessCodeStr.random()
+    assert len(access_code) == AccessCodeStr.length
 
 
 @pytest.mark.parametrize(
     "value, expected_exception",
     [
         pytest.param(
-            "0" * (settings.app.user_settings.access_code_len + 1),
+            "0" * (AccessCodeStr.length + 1),
             ValidationError,
             id="Is longer",
         ),
         pytest.param(
-            "0" * (settings.app.user_settings.access_code_len - 1),
+            "0" * (AccessCodeStr.length - 1),
             ValidationError,
             id="Is shorter",
         ),
         pytest.param(
-            "s" * settings.app.user_settings.access_code_len,
+            "s" * AccessCodeStr.length,
             ValidationError,
             id="Not valid characters",
         ),

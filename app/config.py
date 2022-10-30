@@ -10,7 +10,6 @@ SecondInt: TypeAlias = int
 
 
 class User(BaseSettings):
-    access_code_len: int = Field(env="ACCESS_CODE_LEN", gt=0)
     session_expire_time: SecondInt = Field(
         env="SING_UP_SESSION_EXPIRE_TIME", gt=0
     )

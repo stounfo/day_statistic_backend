@@ -6,7 +6,7 @@ from fastapi import status
 from httpx import AsyncClient
 
 from app.common.security import create_access_token
-from app.config import settings
+from app.common.types import AccessCodeStr
 from app.main import app
 from app.user.models.sign_up import SignUpSessionDB
 from app.user.models.user import UserDB
@@ -80,20 +80,17 @@ async def test_sign_up_access_code_success(
     "payload, expected_status_code",
     [
         pytest.param(
-            {"access_code": "0" * settings.app.user_settings.access_code_len},
+            {"access_code": "0" * AccessCodeStr.length},
             status.HTTP_400_BAD_REQUEST,
             id="Invalid access code",
         ),
         pytest.param(
-            {
-                "access_code": "6"
-                * (settings.app.user_settings.access_code_len + 1)
-            },
+            {"access_code": "6" * (AccessCodeStr.length + 1)},
             status.HTTP_422_UNPROCESSABLE_ENTITY,
             id="Invalid access code length",
         ),
         pytest.param(
-            {"access_code": "A" * settings.app.user_settings.access_code_len},
+            {"access_code": "A" * AccessCodeStr.length},
             status.HTTP_422_UNPROCESSABLE_ENTITY,
             id="Access code contains letters",
         ),
@@ -109,7 +106,7 @@ async def test_sign_up_access_code_error(
         sign_up_session_waiting_for_access_code.pk, timedelta(minutes=1)
     )
     await sign_up_session_waiting_for_access_code.update(
-        access_code="6" * settings.app.user_settings.access_code_len
+        access_code="6" * AccessCodeStr.length
     )
     response = await client.post(
         app.url_path_for("sign_up_access_code"),
