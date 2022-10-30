@@ -83,7 +83,7 @@ async def sign_up_access_code(
     response_model=UserOut,
     status_code=status.HTTP_201_CREATED,
 )
-async def sign_up_name(
+async def sign_up_username(
     data: SignUpUsernameIn,
     sign_up_session: SignUpSessionDB = Depends(get_current_sign_up_session),
 ):
