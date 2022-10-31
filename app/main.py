@@ -1,5 +1,5 @@
-import aioredis
 import motor
+import redis.asyncio as redis
 from beanie import init_beanie
 from fastapi import FastAPI
 
@@ -35,7 +35,7 @@ async def set_up_beanie():
 
 @app.on_event("startup")
 async def set_up_redis_om():
-    app.state.redis = aioredis.Redis.from_url(settings.redis.dsn)
+    app.state.redis = redis.Redis.from_url(settings.redis.dsn)
     SignUpSessionDB.Meta.database = (  # pyright: ignore[reportGeneralTypeIssues] # noqa: E501
         app.state.redis
     )
