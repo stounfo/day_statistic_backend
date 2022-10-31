@@ -10,7 +10,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10.5"
+          python-version: 3.11.0
 
       - name: Add poetry
         uses: abatilo/actions-poetry@v2.0.0
@@ -32,7 +32,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10.5"
+          python-version: 3.11.0
 
       - name: Add poetry
         uses: abatilo/actions-poetry@v2.0.0

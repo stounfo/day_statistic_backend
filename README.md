@@ -4,8 +4,8 @@
 
 Download the project dependencies:
 
-* [python 3.10](https://www.python.org/downloads/)
-* [poetry](https://python-poetry.org/docs/)
+* [python 3.11](https://www.python.org/downloads/)
+* [poetry 1.2.1](https://python-poetry.org/docs/)
 * [docker and docker-compose](https://docs.docker.com/engine/install/ubuntu/)
 
 

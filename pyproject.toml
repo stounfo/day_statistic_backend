@@ -5,14 +5,14 @@ description = ""
 authors = ["Levantin Oleg <levantin.oleg@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10.5"
-fastapi = "^0.79.0"
-uvicorn = "^0.18.2"
+python = "3.11.0"
+fastapi = "^0.85.2"
+uvicorn = "^0.19.0"
 pytest = "^7.1.2"
 email-validator = "^1.2.1"
 python-dotenv = "^0.21.0"
 beanie = "^1.11.9"
-redis-om = "^0.0.27"
+redis-om = "^0.1.0"
 
 [tool.poetry.group.lints.dependencies]
 pre-commit = "^2.20.0"
