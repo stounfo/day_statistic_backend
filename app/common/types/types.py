@@ -19,12 +19,8 @@ class AccessCodeStr(str):
 
     @classmethod
     def validate(cls, value: AccessCodeStr) -> AccessCodeStr:
-        if any(
-            [
-                len(value) != cls.length,
-                not re.compile(r"[0-9]").match(value),  # only digits
-            ],
-        ):
+        if len(value) != cls.length or\
+                not re.compile(r"[0-9]").match(value): # only digits
             raise AccessCodeError()
         return value
 
@@ -56,7 +52,7 @@ class UsernameStr(str):
     @classmethod
     def validate(cls, value: UsernameStr) -> UsernameStr:
         if not any(map(str.isalpha, value)) or not re.compile(
-            r"^[A-z 0-9]{4,16}$"
+            r"^[A-z 0-9]{4,16}$"  ##checking for only english letters, numbers and checking correct length
         ).match(value):
             raise AccessCodeError()
         return value
